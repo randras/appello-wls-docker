@@ -28,18 +28,21 @@ successCount=0
 
 cd('/SecurityConfiguration/ehc/Realms/myrealm/AuthenticationProviders/DefaultAuthenticator')
 
-#cmo.createGroup(userGroup, '')
+cmo.createGroup(userGroup, '')
 
 for userName in userNameArray:
 	usrName=userName['name']
 	pwd=userName['userPwd']
 	desc=userName['description']
 	grpName1=userName['groupName1']	
+	grpName2=userName['groupName2']	
 
 	cmo.createUser(usrName,pwd,desc)
 	print usrName,'- been created' 
 	cmo.addMemberToGroup(grpName1,usrName)
-	#cmo.addMemberToGroup(grpName2,usrName)
+	if grpName2 != null
+		cmo.addMemberToGroup(grpName2,usrName)
+
 	#cmo.addMemberToGroup(grpName3,usrName)
 	print grpName1,'- been assigend to ',usrName
 	successCount=successCount+1

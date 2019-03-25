@@ -70,5 +70,6 @@ if [ $ADD_SERVER -eq 1 ]; then
   wlst /u01/oracle/add-server.py
 fi
 
+echo "###################### machine and server added. ##########################"
 # print log
 #tail -f /u01/oracle/log_$MS_NAME.nm $DOMAIN_HOME/servers/$MS_NAME/logs/*.out
