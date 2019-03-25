@@ -40,7 +40,7 @@ for userName in userNameArray:
 	cmo.createUser(usrName,pwd,desc)
 	print usrName,'- been created' 
 	cmo.addMemberToGroup(grpName1,usrName)
-	if grpName2 != null
+	if grpName2 != null:
 		cmo.addMemberToGroup(grpName2,usrName)
 
 	#cmo.addMemberToGroup(grpName3,usrName)

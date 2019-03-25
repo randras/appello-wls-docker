@@ -35,7 +35,7 @@ mkdir -p $ORACLE_HOME/properties
 
 
 PROPERTIES_FILE=/u01/oracle/properties/domain.properties
-if [[ ! -e "$PROPERTIES_FILE" ]]; then
+if [ ! -e "$PROPERTIES_FILE" ]; then
    echo "A properties file with the username and password needs to be supplied."
    exit
 fi
