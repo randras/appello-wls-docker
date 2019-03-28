@@ -14,7 +14,7 @@
 domain_name      = os.environ.get("DOMAIN_NAME")
 admin_name       = os.environ.get("ADMIN_NAME", "AdminServer")
 admin_port       = int(os.environ.get("ADMIN_PORT", "7001"))
-admin_pass       = os.environ.get("PASS", "legoland1")
+admin_pass       = os.environ.get("ADMIN_PASSWORD", "legoland1")
 #cluster_name     = os.environ.get("CLUSTER_NAME", "DockerCluster")
 domain_path      = os.environ.get("DOMAIN_HOME")
 production_mode  = os.environ.get("PRODUCTION_MODE", "prod")

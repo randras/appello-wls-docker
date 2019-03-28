@@ -8,6 +8,8 @@
 export DOMAIN_HOME=/u01/oracle/user_projects/domains/$DOMAIN_NAME
 echo "Domain Home is: " $DOMAIN_HOME
 
+#/u01/oracle/properties/domain.properties
+
 # If AdminServer.log does not exists, container is starting for 1st time
 # So it should start NM and also associate with AdminServer
 # Otherwise, only start NM (container restarted)
@@ -33,36 +35,46 @@ trap _kill SIGKILL
 mkdir -p $ORACLE_HOME/properties
 # Create Domain only if 1st execution
 
-
-PROPERTIES_FILE=/u01/oracle/properties/domain.properties
-if [ ! -e "$PROPERTIES_FILE" ]; then
-   echo "A properties file with the username and password needs to be supplied."
-   exit
+ADD_DOMAIN=1
+if [ ! -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log ]; then
+    ADD_DOMAIN=0
 fi
 
 
-# Create an empty domain
-wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/create-wls-domain.py
+if [ $ADD_DOMAIN -eq 0 ]; then
 
-# Start Admin Server and tail the logs
-${DOMAIN_HOME}/bin/setDomainEnv.sh   
-nohup ${DOMAIN_HOME}/startWebLogic.sh &
+    PROPERTIES_FILE=/u01/oracle/properties/domain.properties
+    if [ ! -e "$PROPERTIES_FILE" ]; then
+       echo "A properties file with the username and password needs to be supplied."
+       exit
+    fi
 
-/u01/oracle/waitForAdminServer.sh
+    source $PROPERTIES_FILE
+    export $(cut -d= -f1 $PROPERTIES_FILE)
+
+    # Create an empty domain
+    wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/create-wls-domain.py
+
+    # Start Admin Server and tail the logs
+    ${DOMAIN_HOME}/bin/setDomainEnv.sh
+    nohup ${DOMAIN_HOME}/startWebLogic.sh &
+
+    /u01/oracle/waitForAdminServer.sh
 
 
-echo "##################### User creation started ##########################"
-wlst.sh /u01/oracle/create-users.py /u01/oracle/properties/users.properties
+    echo "##################### User creation started ##########################"
+    wlst.sh /u01/oracle/create-users.py /u01/oracle/properties/users.properties
 
-/u01/oracle/createServer.sh
+    /u01/oracle/createServer.sh
 
-${DOMAIN_HOME}/bin/stopWebLogic.sh
+    ${DOMAIN_HOME}/bin/stopWebLogic.sh
 
-echo "##################### DS creation started ##########################"
-wlst.sh -loadProperties /u01/oracle/properties/datasource.properties /u01/oracle/ds-deploy.py
-echo "##################### JMS creation started ##########################"
-wlst.sh /u01/oracle/jms-deploy.py
+    echo "##################### DS creation started ##########################"
+    wlst.sh -loadProperties /u01/oracle/properties/datasource.properties /u01/oracle/ds-deploy.py
+    echo "##################### JMS creation started ##########################"
+    wlst.sh /u01/oracle/jms-deploy.py
 
+fi
 
 nohup ${DOMAIN_HOME}/startWebLogic.sh &
 

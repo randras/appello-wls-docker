@@ -22,7 +22,7 @@ ENV DOMAIN_NAME="${CUSTOM_DOMAIN_NAME}" \
 ENV ADMIN_PORT="${ADMIN_PORT:-7001}"  \
     ADMIN_USERNAME="${ADMIN_USERNAME:-weblogic}" \
     ADMIN_NAME="${ADMIN_NAME:-AdminServer}" \
-    MS_NAME="${MS_NAME:-"Server1"}" \
+    MS_NAME="${MS_NAME:-"KHC"}" \
     NM_NAME="${NM_NAME:-"Machine-localhost"}" \
     ADMIN_PASSWORD="${ADMIN_PASSWORD:-"legoland1"}" \
     CLUSTER_NAME="${CLUSTER_NAME:-DockerCluster}" \
@@ -39,8 +39,9 @@ RUN chmod +xw /u01/oracle/*.sh && \
     mkdir -p $PRE_DOMAIN_HOME && \
     chown -R oracle:oracle $PRE_DOMAIN_HOME && \
     chmod -R a+xwr $PRE_DOMAIN_HOME && \ 
-    mkdir -p $DOMAIN_HOME && \ 
-    chmod -R a+xwr $DOMAIN_HOME
+    mkdir -p $DOMAIN_HOME && \
+    chmod -R a+xwr $DOMAIN_HOME && \
+    mkdir -p /app_deploy
 
 
 VOLUME $PRE_DOMAIN_HOME

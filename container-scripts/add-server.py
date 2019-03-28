@@ -33,7 +33,8 @@ msname = os.environ.get('MS_NAME', 'ManagedServer')
 nmname = os.environ.get('NM_NAME', 'Machine-' + hostname)
 mshost = os.environ.get('MS_HOST', msinternal)
 msport = os.environ.get('MS_PORT', ms_port)
-memargs = os.environ.get('USER_MEM_ARGS', '')
+mswmargs = os.environ.get('MS_VM_ARGS', '')
+memargs = os.environ.get('USER_SERVER_MEM_ARGS', '-Xms512m -Xmx4g -Xss4m -XX:NewSize=256m -XX:MaxNewSize=1g -XX:MaxMetaspaceSize=1g -XX:GCTimeRatio=2 -XX:ParallelGCThreads=8 -XX:+UseParNewGC -XX:SurvivorRatio=8 -XX:+DisableExplicitGC -XX:MaxGCPauseMillis=2000 -XX:+UseStringDeduplication')
 
 print('msname     : [%s]' % msname);
 print('nmname     : [%s]' % nmname);
@@ -88,15 +89,12 @@ cmo.setEnabled(false)
 # -----------------------------------------------------------------------------------------
 cd('/Servers/%s/ServerStart/%s' % (msname, msname))
 arguments = '-Djava.security.egd=file:/dev/./urandom -Dweblogic.Name=%s -Dweblogic.management.server=http://%s:%s %s' % (msname, admin_host, admin_port, memargs)
+arguments = arguments + ' ' + mswmargs
+
+print('############################ Server JVM args: '+arguments+' ######################################')
+
 cmo.setArguments(arguments)
 saveActivate()
-
-# Start Managed Server
-# ------------
-#try:
-#    start(msname, 'Server')
-#except:
-#    dumpStack()
 
 # Exit
 # =========

@@ -13,7 +13,7 @@ hostname       = socket.gethostname()
 # Admin Vars
 admin_name     = os.environ.get('ADMIN_NAME', 'AdminServer')
 admin_username = os.environ.get('ADMIN_USERNAME', 'weblogic')
-admin_password = os.environ.get('PASS', 'legoland1')
+admin_password = os.environ.get('ADMIN_PASSWORD', 'legoland1')
 admin_host     = os.environ.get('ADMIN_HOST', 'localhost')
 admin_port     = os.environ.get('ADMIN_PORT', '7001')
 
