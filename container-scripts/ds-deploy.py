@@ -29,7 +29,7 @@ cd('/JDBCSystemResource/' + dsname + '/JdbcResource/' + dsname)
 create('myJdbcDataSourceParams','JDBCDataSourceParams')
 cd('JDBCDataSourceParams/NO_NAME_0')
 set('JNDIName', java.lang.String(dsjndiname))
-set('GlobalTransactionsProtocol', java.lang.String('None'))
+set('GlobalTransactionsProtocol', java.lang.String('EmulateTwoPhaseCommit'))
 
 cd('/JDBCSystemResource/' + dsname + '/JdbcResource/' + dsname)
 create('myJdbcDriverParams','JDBCDriverParams')

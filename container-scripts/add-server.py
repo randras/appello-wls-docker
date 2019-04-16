@@ -94,6 +94,10 @@ arguments = arguments + ' ' + mswmargs
 print('############################ Server JVM args: '+arguments+' ######################################')
 
 cmo.setArguments(arguments)
+
+cd('/JTA/base_domain')
+cmo.setTimeoutSeconds(1800)
+
 saveActivate()
 
 # Exit

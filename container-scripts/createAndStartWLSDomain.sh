@@ -49,11 +49,13 @@ if [ $ADD_DOMAIN -eq 0 ]; then
        exit
     fi
 
+    DS_PROPERTIES=/u01/oracle/properties/datasource.properties
     source $PROPERTIES_FILE
     export $(cut -d= -f1 $PROPERTIES_FILE)
+    export $(cut -d= -f1 $DS_PROPERTIES)
 
     # Create an empty domain
-    wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/create-wls-domain.py
+    wlst -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/create-wls-domain.py
 
     # Start Admin Server and tail the logs
     ${DOMAIN_HOME}/bin/setDomainEnv.sh
@@ -63,16 +65,16 @@ if [ $ADD_DOMAIN -eq 0 ]; then
 
 
     echo "##################### User creation started ##########################"
-    wlst.sh /u01/oracle/create-users.py /u01/oracle/properties/users.properties
+    wlst /u01/oracle/create-users.py /u01/oracle/properties/users.properties
 
     /u01/oracle/createServer.sh
 
     ${DOMAIN_HOME}/bin/stopWebLogic.sh
 
     echo "##################### DS creation started ##########################"
-    wlst.sh -loadProperties /u01/oracle/properties/datasource.properties /u01/oracle/ds-deploy.py
+    wlst -loadProperties /u01/oracle/properties/datasource.properties /u01/oracle/ds-deploy.py
     echo "##################### JMS creation started ##########################"
-    wlst.sh /u01/oracle/jms-deploy.py
+    wlst /u01/oracle/jms-deploy.py
 
 fi
 

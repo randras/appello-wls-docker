@@ -34,15 +34,13 @@ COPY container-scripts/* /u01/oracle/
 
 #Create directory where domain will be written to
 USER root
-RUN chmod +xw /u01/oracle/*.sh && \
-    chmod +xw /u01/oracle/*.py && \
+RUN chmod +xw /u01/oracle/* && \
     mkdir -p $PRE_DOMAIN_HOME && \
     chown -R oracle:oracle $PRE_DOMAIN_HOME && \
     chmod -R a+xwr $PRE_DOMAIN_HOME && \ 
     mkdir -p $DOMAIN_HOME && \
     chmod -R a+xwr $DOMAIN_HOME && \
     mkdir -p /app_deploy
-
 
 VOLUME $PRE_DOMAIN_HOME
 # Expose Node Manager default port, and also default for admin and managed server
