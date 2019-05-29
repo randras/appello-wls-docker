@@ -22,6 +22,7 @@ sed -i -e "s|ADMIN_PASSWORD|$s|g" /u01/oracle/commonfuncs.py
 # If log.nm does not exists, container is starting for 1st time
 # So it should start NM and also associate with AdminServer, as well Managed Server
 # Otherwise, only start NM (container is being restarted)
+ADD_SERVER=0
 if [ ! -f /u01/oracle/log_$MS_NAME.nm ]; then
     ADD_SERVER=1
 fi

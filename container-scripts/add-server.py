@@ -95,6 +95,23 @@ print('############################ Server JVM args: '+arguments+' #############
 
 cmo.setArguments(arguments)
 
+
+cd('/')
+cmo.createServer('MHC')
+
+cd('/Servers/MHC')
+cmo.setMachine(getMBean('/Machines/%s' % nmname))
+
+cmo.setListenAddress(msinternal)
+cmo.setListenPort(7059)
+cmo.setListenPortEnabled(true)
+cmo.setExternalDNSName(mshost)
+cd('/Servers/MHC/SSL/MHC')
+cmo.setEnabled(false)
+cd('/Servers/MHC/ServerStart/MHC')
+cmo.setArguments('-Dweblogic.MaxMessageSize=100000000 -Dmhc_simulator.properties.path=/app_config/mhc -Dweblogic.transaction.allowOverrideSetRollbackReason=true -Xrunjdwp:transport=dt_socket,address=8059,server=y,suspend=n')
+
+
 cd('/JTA/base_domain')
 cmo.setTimeoutSeconds(1800)
 
